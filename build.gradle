@@ -25,6 +25,9 @@ dependencies {
 	// Firebase
 	implementation 'com.google.firebase:firebase-admin:9.2.0'
 
+	// okhttp
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
+
 	// Lombok 라이브러리
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
