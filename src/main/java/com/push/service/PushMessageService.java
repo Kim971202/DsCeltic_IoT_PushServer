@@ -3,22 +3,33 @@ package com.push.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.push.controller.PushController;
-import com.push.message.PushMessage;
+import com.push.config.PushMessage;
+import com.push.constant.MessageBody;
+
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
 @Service
 public class PushMessageService {
 
-     private final String API_URL = "https://fcm.googleapis.com/v1/projects/daesung-intergrate-iot/messages:send";
+     //private final String API_URL = "https://fcm.googleapis.com/v1/projects/daesung-intergrate-iot/messages:send";
+     private final String API_URL = "https://fcm.googleapis.com/fcm/send";
      private final ObjectMapper objectMapper;
+     @Autowired
+     private PushMessage pushMessage;
+
+     @Value("${server.authorization.token}")
+     private String serverAuthorizationToken;
+
+     @Value("${client.destination.token}")
+     private String clientDestinationToken;
 
     public PushMessageService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -34,34 +45,27 @@ public class PushMessageService {
         Request request = new Request.Builder()
                 .url(API_URL)
                 .post(requestBody)
-                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                .addHeader(HttpHeaders.AUTHORIZATION, "key=" + serverAuthorizationToken)
+                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json")
                 .build();
         Response response = client.newCall(request).execute();
 
-        if(response.body() != null) System.out.println(response.body().string());
-     }
+        if(response.body() != null) System.out.println("response.body().string(): " + response.body().string());
+    }
 
-     private String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
-         PushMessage fcmMessage = PushMessage
-                 .builder()
-                 .message(
-                         PushMessage
-                                 .Message
-                                 .builder()
-                                 .token(targetToken)
-                 .notification(
-                         PushMessage
-                                 .Notification
-                                 .builder()
-                                 .title(title)
-                                 .body(body)
-                                 .image(null)
-                                 .build())
-                                 .build())
-                 .validate_only(false).build();
+     public String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
 
-         return objectMapper.writeValueAsString(fcmMessage);
+         MessageBody messageBody = new MessageBody();
+         MessageBody.Body myBody = new MessageBody.Body();
+
+         messageBody.setDestinationToken(clientDestinationToken);
+         messageBody.setPriority("high");
+         myBody.setTitle(pushMessage.getNoticeTitle());
+         myBody.setBody(pushMessage.getNoticeBody());
+         messageBody.setData(myBody);
+
+         System.out.println("objectMapper.writeValueAsString(messageBody): " + objectMapper.writeValueAsString(messageBody));
+         return objectMapper.writeValueAsString(messageBody);
      }
 
     public String getAccessToken() throws IOException {
@@ -72,7 +76,6 @@ public class PushMessageService {
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
 
         googleCredentials.refreshIfExpired();
-        System.out.println("googleCredentials.getAccessToken().getTokenValue(): " + googleCredentials.getAccessToken().getTokenValue());
         return googleCredentials.getAccessToken().getTokenValue();
     }
 }

@@ -1,6 +1,7 @@
 package com.push.controller;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.push.config.PushMessage;
 import com.push.service.PushMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class PushController {
     public void msgController(HttpSession session, HttpServletRequest request, @ModelAttribute String params, HttpServletResponse response)
         throws Exception {
 
-        pushMessageService.sendMessageTo("0578b098b708c6aca7883ceebb6010ba37e4d8ab", "ThisisTitle", "ThisisBody");
+        pushMessageService.sendMessageTo("String", "String", "Streing");
     }
 
 }
