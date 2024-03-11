@@ -1,0 +1,27 @@
+push:
+  message:
+    brightnessControl-title: 밝기 조절 Title
+    brightnessControl-body: 밝기 조절 Body
+    notice-title: 공지사항알림
+    notice-body: 신규 공지사항이 있습니다.
+    householdNoti-1302-message: 택배가 도착하였습니다.
+    powerOnOff-title: 전원 On/Off
+    powerOnOff-Body: 전원 On/Off 성공
+    deviceInfoUpsert-insert-title: 디바이스 등록
+    deviceInfoUpsert-insert-body: 디바이스 등록 성공
+    deviceInfoUpsert-update-title: 디바이스 수정
+    deviceInfoUpsert-update-body: 디바이스 수정 성공
+    mode-change-title: 가동 모드 변경
+    mode-change-body: 가동 모드 변경 성공
+    temperatureSet-title: 실내온도 설정
+    temperatureSet-body: 실내온도 설정 완료
+    boiledWater-temperatureSet-title: 난방수온도 설정
+    boiledWater-temperatureSet-body: 난방수온도 설정 완료
+
+server:
+  authorization:
+    token: AAAAKjcok38:APA91bEV2mzphbPKA_MEH9n7R5Twk1El8cQ6QkclWGRJFNarC7DcPw6hMx73bHAxzyd8wTB8HUG__J7aPeQMXA1SIVzqNwImdvrXi5VW2m7CutpI8a1DIPScDT8S-T6mi530wkS8K23-
+
+client:
+  destination:
+    token: excnxsSdTCuDA_My9rKj8X:APA91bHsLAkbFFDMmujoEDTeHN-ZXPzVyCgFkkhgXSz1cGC-QtveSeX86KZdtiDbYGDoYbqhLdjaZx_6Q8WdUyb9MyoArzc8-aos6kixKN9-hH72_A_PKWxXeBK1_GQNbM_IdmW-lyBR
