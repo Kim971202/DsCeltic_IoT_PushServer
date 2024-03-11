@@ -25,7 +25,6 @@ public class PushController {
     public void msgController(HttpSession session, HttpServletRequest request, @ModelAttribute String params, HttpServletResponse response)
         throws Exception {
 
-        pushMessageService.sendMessageTo("String", "String", "Streing");
     }
 
 }
