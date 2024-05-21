@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  pushServer:
+    build: .
+    container_name: pushServer
+    ports:
+      - "8082:8082"
