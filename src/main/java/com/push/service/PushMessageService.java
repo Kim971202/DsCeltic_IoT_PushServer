@@ -3,14 +3,10 @@ package com.push.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.push.config.PushMessage;
-import com.push.constant.MessageBody;
 import com.push.constant.FCMMessageDto;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -22,61 +18,18 @@ import java.util.List;
 public class PushMessageService {
 
     private final ObjectMapper objectMapper;
-
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/daesung-intergrate-iot/messages:send";
-     @Autowired
-     private PushMessage pushMessage;
-
-     @Value("${server.authorization.token}")
-     private String serverAuthorizationToken;
-
-     @Value("${client.destination.token}")
-     private String clientDestinationToken;
-
     public PushMessageService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
-
-    public void sendMessageTo(String targetToken, String title, String body) throws IOException {
-        String message = makeMessage(targetToken, title, body);
-
-        System.out.println("message: " + message);
-
-        OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
-        Request request = new Request.Builder()
-                .url(API_URL)
-                .post(requestBody)
-                .addHeader(HttpHeaders.AUTHORIZATION, "key=" + serverAuthorizationToken)
-                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-                .build();
-        Response response = client.newCall(request).execute();
-
-        if(response.body() != null) System.out.println("response.body().string(): " + response.body().string());
-    }
-
-     public String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
-
-         MessageBody messageBody = new MessageBody();
-         MessageBody.Body myBody = new MessageBody.Body();
-
-         messageBody.setDestinationToken(clientDestinationToken);
-         messageBody.setPriority("high");
-         myBody.setTitle(pushMessage.getNoticeTitle());
-         myBody.setBody(pushMessage.getNoticeBody());
-         messageBody.setData(myBody);
-
-         System.out.println("objectMapper.writeValueAsString(messageBody): " + objectMapper.writeValueAsString(messageBody));
-         return objectMapper.writeValueAsString(messageBody);
-     }
 
     /**
      * 알림 푸쉬를 보내는 역할을 하는 메서드
      * @param targetToken : 푸쉬 알림을 받을 클라이언트 앱의 식별 토큰
      * */
-    public void sendMessageTo(String targetToken, String title, String body, String id, String isEnd) throws IOException{
+    public void sendMessageTo(String targetToken, String title, String body, String id, String description) throws IOException{
 
-        String message = makeMessage(targetToken, title, body, id, isEnd);
+        String message = makeMessage(targetToken, title, body, id, description);
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
@@ -89,8 +42,7 @@ public class PushMessageService {
                 .build();
 
         Response response = client.newCall(request).execute();
-        log.info(response.body().string());
-        return;
+        if(response.body() != null) log.info(response.body().string());
     }
 
 
@@ -101,7 +53,7 @@ public class PushMessageService {
      * @param body : 알림 내용
      * @return
      * */
-    public String makeMessage(String targetToken, String title, String body, String name, String description) throws JsonProcessingException {
+    private String makeMessage(String targetToken, String title, String body, String name, String description) throws JsonProcessingException {
 
         FCMMessageDto fcmMessage = FCMMessageDto.builder()
                 .message(
@@ -127,7 +79,7 @@ public class PushMessageService {
     }
 
     private String getAccessToken() throws IOException {
-        // firebase로 부터 access token을 가져온다.
+        // firebase 에서 access token 취득
         GoogleCredentials   googleCredentials = GoogleCredentials
                 .fromStream(new ClassPathResource("daesung-intergrate-iot-firebase-adminsdk-wilx9-0578b098b7.json").getInputStream())
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));

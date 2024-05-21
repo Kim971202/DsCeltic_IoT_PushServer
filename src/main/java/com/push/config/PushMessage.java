@@ -16,9 +16,7 @@ public class PushMessage {
 
     private String brightnessControlTitle;
     private String brightnessControlBody;
-
     private String householdNoti1302Message;
-
     private String noticeTitle;
     private String noticeBody;
 
