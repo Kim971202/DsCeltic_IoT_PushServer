@@ -18,7 +18,7 @@ import java.util.List;
 public class PushMessageService {
 
     private final ObjectMapper objectMapper;
-    private final String API_URL = "https://fcm.googleapis.com/v1/projects/daesung-intergrate-iot/messages:send";
+    private final String API_URL = "https://fcm.googleapis.com/v1/projects/daesungiotcontrol/messages:send";
     public PushMessageService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
