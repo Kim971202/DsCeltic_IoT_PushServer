@@ -81,7 +81,7 @@ public class PushMessageService {
     private String getAccessToken() throws IOException {
         // firebase 에서 access token 취득
         GoogleCredentials   googleCredentials = GoogleCredentials
-                .fromStream(new ClassPathResource("daesung-intergrate-iot-firebase-adminsdk-wilx9-0578b098b7.json").getInputStream())
+                .fromStream(new ClassPathResource("daesungiotcontrol-firebase-adminsdk-zt3g6-6e751330cd.json").getInputStream())
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
         googleCredentials.refreshIfExpired();
 
