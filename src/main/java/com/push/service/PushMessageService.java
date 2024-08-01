@@ -59,12 +59,12 @@ public class PushMessageService {
                 .message(
                         FCMMessageDto.Message.builder()
                                 .token(targetToken)
-                                .notification(
-                                        FCMMessageDto.Notification.builder()
-                                                .title(title)
-                                                .body(body)
-                                                .build()
-                                )
+//                                .notification(
+//                                        FCMMessageDto.Notification.builder()
+//                                                .title(title)
+//                                                .body(body)
+//                                                .build()
+//                                )
                                 .data(
                                         FCMMessageDto.Data.builder()
                                                 .name(name)
