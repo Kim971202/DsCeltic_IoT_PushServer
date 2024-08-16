@@ -27,9 +27,9 @@ public class PushMessageService {
      * 알림 푸쉬를 보내는 역할을 하는 메서드
      * @param targetToken : 푸쉬 알림을 받을 클라이언트 앱의 식별 토큰
      * */
-    public void sendMessageTo(String targetToken, String title, String body, String id, String description) throws IOException{
+    public void sendMessageTo(String targetToken, String title, String body, String id, String description, String pushYn) throws IOException{
 
-        String message = makeMessage(targetToken, title, body, id, description);
+        String message = makeMessage(targetToken, title, body, id, description, pushYn);
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
@@ -53,7 +53,7 @@ public class PushMessageService {
      * @param body : 알림 내용
      * @return
      * */
-    private String makeMessage(String targetToken, String title, String body, String name, String description) throws JsonProcessingException {
+    private String makeMessage(String targetToken, String title, String body, String name, String description, String pushYn) throws JsonProcessingException {
 
         FCMMessageDto fcmMessage = FCMMessageDto.builder()
                 .message(
@@ -69,6 +69,7 @@ public class PushMessageService {
                                         FCMMessageDto.Data.builder()
                                                 .name(name)
                                                 .description(description)
+                                                .pushYn(pushYn)
                                                 .build()
                                 )
                                 .build()

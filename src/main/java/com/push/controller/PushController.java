@@ -38,12 +38,13 @@ public class PushController {
 
         System.out.println("jsonBody: " + jsonBody);
         String targetToken = common.readCon(jsonBody, "targetToken");
-        String title = common.readCon(jsonBody, "");
+        String title = common.readCon(jsonBody, "title");
         String body = common.readCon(jsonBody, "body");
         String id = common.readCon(jsonBody, "id");
+        String pushYn = common.readCon(jsonBody, "pushYn");
         System.out.println("targetToken: " + targetToken);
 
-        pushMessageService.sendMessageTo(targetToken, title, body, id, common.readCon(jsonBody, "con"));
+        pushMessageService.sendMessageTo(targetToken, title, body, id, common.readCon(jsonBody, "con"), pushYn);
     }
 
 }

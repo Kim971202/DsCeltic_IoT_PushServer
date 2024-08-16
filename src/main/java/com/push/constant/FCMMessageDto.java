@@ -34,6 +34,7 @@ public class FCMMessageDto {
     public static class Data{
         private String name;
         private String description;
+        private String pushYn;
     }
 
 }
