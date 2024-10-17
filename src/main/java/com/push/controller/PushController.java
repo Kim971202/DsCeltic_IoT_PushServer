@@ -42,9 +42,10 @@ public class PushController {
         String body = common.readCon(jsonBody, "body");
         String id = common.readCon(jsonBody, "id");
         String pushYn = common.readCon(jsonBody, "pushYn");
+        String modelCode = common.readCon(jsonBody, "modelCode");
         System.out.println("targetToken: " + targetToken);
 
-        pushMessageService.sendMessageTo(targetToken, title, body, id, common.readCon(jsonBody, "con"), pushYn);
+        pushMessageService.sendMessageTo(targetToken, title, body, id, common.readCon(jsonBody, "con"), pushYn, modelCode);
     }
 
 }

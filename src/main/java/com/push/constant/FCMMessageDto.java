@@ -35,6 +35,6 @@ public class FCMMessageDto {
         private String name;
         private String description;
         private String pushYn;
+        private String modelCode;
     }
-
 }
