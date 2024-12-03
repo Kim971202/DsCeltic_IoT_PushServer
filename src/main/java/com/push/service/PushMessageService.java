@@ -27,9 +27,9 @@ public class PushMessageService {
      * 알림 푸쉬를 보내는 역할을 하는 메서드
      * @param targetToken : 푸쉬 알림을 받을 클라이언트 앱의 식별 토큰
      * */
-    public void sendMessageTo(String targetToken, String title, String body, String id, String description, String pushYn, String modelCode) throws IOException{
+    public void sendMessageTo(String targetToken, String description) throws IOException{
 
-        String message = makeMessage(targetToken, title, body, id, description, pushYn, modelCode);
+        String message = makeMessage(targetToken,description);
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
@@ -49,11 +49,10 @@ public class PushMessageService {
     /**
      * makeMessage : 알림 파라미터들을 FCM이 요구하는 body 형태로 가공한다.
      * @param targetToken : firebase token
-     * @param title : 알림 제목
-     * @param body : 알림 내용
+     * @param description : 푸시 내용
      * @return
      * */
-    private String makeMessage(String targetToken, String title, String body, String name, String description, String pushYn, String modelCode) throws JsonProcessingException {
+    private String makeMessage(String targetToken, String description) throws JsonProcessingException {
 
         FCMMessageDto fcmMessage = FCMMessageDto.builder()
                 .message(
@@ -67,10 +66,7 @@ public class PushMessageService {
 //                                )
                                 .data(
                                         FCMMessageDto.Data.builder()
-                                                .name(name)
                                                 .description(description)
-                                                .pushYn(pushYn)
-                                                .modelCode(modelCode)
                                                 .build()
                                 )
                                 .build()

@@ -32,9 +32,9 @@ public class FCMMessageDto {
     @AllArgsConstructor
     @Getter
     public static class Data{
-        private String name;
+//        private String name;
         private String description;
-        private String pushYn;
-        private String modelCode;
+//        private String pushYn;
+//        private String modelCode;
     }
 }
